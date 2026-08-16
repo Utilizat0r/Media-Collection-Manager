@@ -1,15 +1,16 @@
 {
-  "version": "3.24.1",
-  "title": "Playback Recovery Hotfix",
-  "sha256": "f166e14d37f93d81d58bb8dbd3b6fbb925ec6596701a1282843194aa98e33ebf",
+  "version": "3.24.2",
+  "title": "Update Progress UX",
+  "sha256": "422820848589c10096ba8392a92ae7e28b7191ebab6b0d0860c30e78d49306e5",
   "url": "",
   "parts_b64": [
-    "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.1/hotfix.b64.001"
+    "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.2/update.b64.001"
   ],
   "notes": [
-    "Критический hotfix: восстановлено воспроизведение видео в Sort PRO",
-    "Playback/seek поведение возвращено к проверенной реализации v3.23.9",
-    "GitHub-обновления и иконка сохранены",
-    "Экспериментальный compatibility/repair queue из v3.24.0 отключён до отдельной безопасной переработки"
+    "Нормальный прогресс обновления: проценты, МБ и понятные этапы",
+    "После скачивания отдельное GUI-окно показывает резервную копию, установку и перезапуск",
+    "Updater и перезапуск больше не используют пустое окно cmd.exe",
+    "Добавлен best-effort rollback при ошибке установки",
+    "Sort PRO, видео, Паутина и AI не изменялись относительно v3.24.1"
   ]
 }
