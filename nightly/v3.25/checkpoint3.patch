@@ -1,0 +1,15 @@
+--- /tmp/ui_cp2.py	2026-08-16 21:31:03.078113589 +0000
++++ ui.py	2026-08-16 21:31:03.551833503 +0000
+@@ -398,7 +398,11 @@
+         if not index.isValid() or index.row()<0 or index.row()>=self.rowCount():return None
+         r=self.rows[index.row()] if index.row()<len(self.rows) else None
+         if r is None:
+-            self._queue_page_for_row(index.row())
++            # QListView/delegate may ask 6-10 roles for the same placeholder during one
++            # layout/paint pass. Queue metadata only on the thumbnail role; viewport
++            # ensure_range() remains the primary directional loader. This avoids repeated
++            # OrderedDict/set/timer churn for every role of every unloaded index.
++            if role==ROLE_THUMB:self._queue_page_for_row(index.row())
+             if role==Qt.ItemDataRole.DisplayRole:return ''
+             return None
+         if role==ROLE_ID:return int(r['id'])
