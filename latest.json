@@ -1,13 +1,13 @@
 {
-  "version": "3.25.0",
-  "title": "Performance Core",
-  "sha256": "e3b704e2a44107a6386308f1b764c4d97b4aadfa27149c1ceb588824e5d1849a",
-  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.25.0/update.zip",
+  "version": "3.26.0",
+  "title": "Universal AI Search",
+  "sha256": "01e2f37d1d92f985876d988e378363c49fd75ea2c885bc075e9a29ff62aa1d89",
+  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.26.0/update.zip",
   "notes": [
-    "Spider: финальный resize/crop thumbnail перенесён из GUI thread в QImage decoder workers",
-    "Spider: Fit/Proportional paint больше не создаёт SmoothTransformation QPixmap при каждой перерисовке",
-    "Spider: устаревшие thumbnail-запросы старого viewport отменяются до декодирования",
-    "Spider: sparse model больше не ставит одну SQL-страницу в очередь повторно для каждого delegate role",
-    "Sort PRO playback/seek, AI engine, Spider state и native player сохранены без изменений относительно v3.24.5"
+    "AI: цвета и атрибуты теперь привязываются к ближайшему объекту, а не к первому объекту всей фразы",
+    "AI: поддержаны произвольные N-комбинации объектов даже без запятых и союзов",
+    "AI: +, &, / работают как явные разделители компонентов запроса",
+    "AI: словарь distractor-классов автоматически дополняется всеми объектами из зарегистрированной семантической таксономии",
+    "Sort PRO playback/seek, Spider state и native player не изменялись"
   ]
 }
