@@ -1,0 +1,62 @@
+--- ui.py.v3.24.5
++++ ui.py.v3.25-checkpoint1
+@@ -187,6 +187,19 @@
+                 reader.setScaledSize(QSize(level,level))
+         return reader.read()
+ 
++    def _prepare_render_image(self,image: QImage,render_tile:int):
++        """Finish resize/crop in the decoder thread so GUI paint stays cheap."""
++        if image is None or image.isNull():return QImage()
++        if self.proportional_mode:
++            limit=QSize(int(render_tile*3.2),int(render_tile*3.2))
++            return image.scaled(limit,Qt.AspectRatioMode.KeepAspectRatio,Qt.TransformationMode.SmoothTransformation)
++        if self.fit_mode:
++            return image.scaled(QSize(render_tile,render_tile),Qt.AspectRatioMode.KeepAspectRatio,Qt.TransformationMode.SmoothTransformation)
++        scaled=image.scaled(QSize(render_tile,render_tile),Qt.AspectRatioMode.KeepAspectRatioByExpanding,Qt.TransformationMode.SmoothTransformation)
++        if scaled.isNull():return scaled
++        sx=max(0,(scaled.width()-render_tile)//2);sy=max(0,(scaled.height()-render_tile)//2)
++        return scaled.copy(sx,sy,min(render_tile,scaled.width()),min(render_tile,scaled.height()))
++
+     def run(self):
+@@ -195,6 +208,8 @@
+             try:
+                 image=self._decode_level(path,level)
+                 if self._stop:break
++                image=self._prepare_render_image(image,render_tile)
++                if self._stop:break
+                 if image is not None and not image.isNull():self.image_ready.emit(path,image,render_tile,self.fit_mode)
+@@ -616,16 +631,9 @@
+         key=self._cache_key(path,render_tile,target_fit,target_prop)
+         self._requested.discard(key)
+         if image is None or image.isNull():return False
+-        pix=QPixmap.fromImage(image)
+-        if pix.isNull():return False
+-        if target_prop:
+-            final=pix.scaled(QSize(int(render_tile*3.2),int(render_tile*3.2)),Qt.AspectRatioMode.KeepAspectRatio,Qt.TransformationMode.SmoothTransformation)
+-        elif target_fit:
+-            final=pix.scaled(QSize(render_tile,render_tile),Qt.AspectRatioMode.KeepAspectRatio,Qt.TransformationMode.SmoothTransformation)
+-        else:
+-            scaled=pix.scaled(QSize(render_tile,render_tile),Qt.AspectRatioMode.KeepAspectRatioByExpanding,Qt.TransformationMode.SmoothTransformation)
+-            sx=max(0,(scaled.width()-render_tile)//2);sy=max(0,(scaled.height()-render_tile)//2)
+-            final=scaled.copy(sx,sy,min(render_tile,scaled.width()),min(render_tile,scaled.height()))
++        # ThumbnailDecodeWorker already produced the exact render image off the GUI thread.
++        # QPixmap creation is intentionally the only image conversion left in the GUI path.
++        final=QPixmap.fromImage(image)
+         if final.isNull():return False
+@@ -704,8 +712,9 @@
+         elif self.proportional_mode:
+             if self.fit_mode:
+                 painter.fillRect(rect,QColor('#08090b'))
+-                scaled=pix.scaled(rect.size(),Qt.AspectRatioMode.KeepAspectRatio,Qt.TransformationMode.SmoothTransformation)
+-                painter.drawPixmap(rect.x()+(rect.width()-scaled.width())//2,rect.y()+(rect.height()-scaled.height())//2,scaled)
++                pw=max(1,pix.width());ph=max(1,pix.height());scale=min(rect.width()/pw,rect.height()/ph)
++                tw=max(1,int(pw*scale));th=max(1,int(ph*scale));target=QRect(rect.x()+(rect.width()-tw)//2,rect.y()+(rect.height()-th)//2,tw,th)
++                painter.drawPixmap(target,pix,pix.rect())
+@@ -715,8 +724,9 @@
+         elif self.fit_mode:
+             painter.fillRect(rect,QColor('#08090b'))
+-            scaled=pix if pix.width()<=rect.width() and pix.height()<=rect.height() else pix.scaled(rect.size(),Qt.AspectRatioMode.KeepAspectRatio,Qt.TransformationMode.SmoothTransformation)
+-            painter.drawPixmap(rect.x()+(rect.width()-scaled.width())//2,rect.y()+(rect.height()-scaled.height())//2,scaled)
++            pw=max(1,pix.width());ph=max(1,pix.height());scale=min(1.0,rect.width()/pw,rect.height()/ph)
++            tw=max(1,int(pw*scale));th=max(1,int(ph*scale));target=QRect(rect.x()+(rect.width()-tw)//2,rect.y()+(rect.height()-th)//2,tw,th)
++            painter.drawPixmap(target,pix,pix.rect())
