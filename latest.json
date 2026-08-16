@@ -1,13 +1,13 @@
 {
-  "version": "3.24.5",
-  "title": "Sort PRO Recovery",
-  "sha256": "ce3c1a459b7f502278b810796bd159386d5b8915199f0464b6e977c67cd417f6",
-  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.5/update.zip",
+  "version": "3.25.0",
+  "title": "Performance Core",
+  "sha256": "e3b704e2a44107a6386308f1b764c4d97b4aadfa27149c1ceb588824e5d1849a",
+  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.25.0/update.zip",
   "notes": [
-    "Аварийно восстановлен Sort PRO: sorter_seek.py возвращён побайтно к рабочей версии v3.23.9/v3.24.3",
-    "Неудачный CREATE_NO_WINDOW полностью удалён из FFmpeg/FFprobe вызовов Sort PRO и app_core",
-    "Чёрные окна исправляются только на границе перезапуска MCM, без изменения playback/seek команд",
-    "После запуска установщика MCM закрывается сразу — второго окна с кнопкой OK больше нет",
-    "AI, Паутина, QMediaPlayer и Sort PRO UI не изменялись"
+    "Spider: финальный resize/crop thumbnail перенесён из GUI thread в QImage decoder workers",
+    "Spider: Fit/Proportional paint больше не создаёт SmoothTransformation QPixmap при каждой перерисовке",
+    "Spider: устаревшие thumbnail-запросы старого viewport отменяются до декодирования",
+    "Spider: sparse model больше не ставит одну SQL-страницу в очередь повторно для каждого delegate role",
+    "Sort PRO playback/seek, AI engine, Spider state и native player сохранены без изменений относительно v3.24.5"
   ]
 }
