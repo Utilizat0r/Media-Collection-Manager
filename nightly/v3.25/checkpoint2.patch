@@ -1,0 +1,32 @@
+--- /tmp/ui_cp1.py	2026-08-16 21:30:33.265832125 +0000
++++ ui.py	2026-08-16 21:30:34.347832397 +0000
+@@ -7682,6 +7682,16 @@
+                 path=str(r['thumb'] or '')
+                 if path:visible.append(path);visible_rows.setdefault(path,[]).append(i);self.queue_thumbnail_decode(path,True)
+             self._visible_thumb_paths=set(visible);self._visible_thumb_rows=visible_rows
++            # Drop urgent requests that belonged to an older viewport before they reach a
++            # decoder thread. They are safe to request again when/if that viewport returns.
++            visible_set=self._visible_thumb_paths
++            for req in list(self._thumb_pending.keys()):
++                try:
++                    if str(req[0]) not in visible_set:
++                        self._thumb_pending.pop(req,None)
++                        self.web_delegate.release_request(req[0],req[1],req[2],req[3])
++                except Exception:
++                    self._thumb_pending.pop(req,None)
+             # Do not launch speculative disk reads during active wheel/trackpad movement.
+             # The idle pass below will fill the halo once navigation settles.
+             if interactive:
+@@ -7758,6 +7768,12 @@
+         # reversal or a scrollbar-sized jump invalidates work that is genuinely obsolete.
+         if reversed_dir or big_jump:
+             self._thumb_generation+=1;self._thumb_prefetch.clear()
++            # A scrollbar jump makes queued visible work from the old viewport useless.
++            # Release it immediately instead of spending disk/CPU before the destination.
++            for req in list(self._thumb_pending.keys()):
++                self._thumb_pending.pop(req,None)
++                try:self.web_delegate.release_request(req[0],req[1],req[2],req[3])
++                except Exception:pass
+             for w in list(getattr(self,'_thumb_workers',[])):
+                 try:w.stop()
+                 except Exception:pass
