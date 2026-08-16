@@ -1,13 +1,13 @@
 {
-  "version": "3.24.4",
-  "title": "No Console Flash Hotfix",
-  "sha256": "e3e82a1f69a93d7ab3768590fe799f2e0059de363cd242de15d514103bdad9c1",
-  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.4/update.zip",
+  "version": "3.24.5",
+  "title": "Sort PRO Recovery",
+  "sha256": "ce3c1a459b7f502278b810796bd159386d5b8915199f0464b6e977c67cd417f6",
+  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.5/update.zip",
   "notes": [
-    "Исправлены периодически всплывающие чёрные окна консоли после OTA-перезапуска через pythonw.exe",
-    "FFmpeg/FFprobe процессы Sort PRO теперь запускаются с CREATE_NO_WINDOW на Windows",
-    "Фоновые multimedia probe/frame операции ядра также скрыты",
-    "Команды FFmpeg, remux/transcode, seek и QMediaPlayer не изменялись",
-    "Sort PRO UI, AI, Паутина и updater не изменялись"
+    "Аварийно восстановлен Sort PRO: sorter_seek.py возвращён побайтно к рабочей версии v3.23.9/v3.24.3",
+    "Неудачный CREATE_NO_WINDOW полностью удалён из FFmpeg/FFprobe вызовов Sort PRO и app_core",
+    "Чёрные окна исправляются только на границе перезапуска MCM, без изменения playback/seek команд",
+    "После запуска установщика MCM закрывается сразу — второго окна с кнопкой OK больше нет",
+    "AI, Паутина, QMediaPlayer и Sort PRO UI не изменялись"
   ]
 }
