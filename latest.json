@@ -1,14 +1,13 @@
 {
-  "version": "3.24.3",
-  "title": "Direct ZIP OTA",
-  "sha256": "28230b998f335ceae83693e47d7eee453f68c5289eb02a959cb063e1357cc020",
-  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.3/update.zip",
+  "version": "3.24.4",
+  "title": "No Console Flash Hotfix",
+  "sha256": "e3e82a1f69a93d7ab3768590fe799f2e0059de363cd242de15d514103bdad9c1",
+  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.4/update.zip",
   "notes": [
-    "Канал обновлений переведён на один прямой ZIP без Base64 и частей",
-    "Убраны Base64-декодирование и риск padding-ошибок",
-    "OTA-пакет уменьшен до компактного bootstrap-патча",
-    "Последующие загрузки идут потоком по 1 МБ с обязательной SHA-256 и ZIP-проверкой",
-    "GUI установки, backup и rollback сохранены без изменений",
-    "Sort PRO playback/seek, видео, Паутина и AI не изменялись"
+    "Исправлены периодически всплывающие чёрные окна консоли после OTA-перезапуска через pythonw.exe",
+    "FFmpeg/FFprobe процессы Sort PRO теперь запускаются с CREATE_NO_WINDOW на Windows",
+    "Фоновые multimedia probe/frame операции ядра также скрыты",
+    "Команды FFmpeg, remux/transcode, seek и QMediaPlayer не изменялись",
+    "Sort PRO UI, AI, Паутина и updater не изменялись"
   ]
 }
