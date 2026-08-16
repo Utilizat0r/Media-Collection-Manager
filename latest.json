@@ -1,16 +1,14 @@
 {
-  "version": "3.24.2",
-  "title": "Update Progress UX",
-  "sha256": "737b466d75f570bdf209111b2075be5d75210d7788c2f6e31834e65869f86a1c",
-  "url": "",
-  "parts_b64": [
-    "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.2/update.b64.001"
-  ],
+  "version": "3.24.3",
+  "title": "Direct ZIP OTA",
+  "sha256": "28230b998f335ceae83693e47d7eee453f68c5289eb02a959cb063e1357cc020",
+  "url": "https://raw.githubusercontent.com/Utilizat0r/Media-Collection-Manager/main/releases/v3.24.3/update.zip",
   "notes": [
-    "Нормальный прогресс обновления: проценты, МБ и понятные этапы",
-    "После скачивания отдельное GUI-окно показывает резервную копию, установку и перезапуск",
-    "Updater и перезапуск больше не используют пустое окно cmd.exe",
-    "Добавлен best-effort rollback при ошибке установки",
-    "Sort PRO, видео, Паутина и AI не изменялись относительно v3.24.1"
+    "Канал обновлений переведён на один прямой ZIP без Base64 и частей",
+    "Убраны Base64-декодирование и риск padding-ошибок",
+    "OTA-пакет уменьшен до компактного bootstrap-патча",
+    "Последующие загрузки идут потоком по 1 МБ с обязательной SHA-256 и ZIP-проверкой",
+    "GUI установки, backup и rollback сохранены без изменений",
+    "Sort PRO playback/seek, видео, Паутина и AI не изменялись"
   ]
 }
